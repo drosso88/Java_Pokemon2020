@@ -6,7 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.imageio.ImageIO;
+import jdk.nashorn.internal.ir.CatchNode;
 
 /**
  *
@@ -17,6 +22,11 @@ public class VentanaPokedex extends javax.swing.JFrame {
     BufferedImage buffer1 = null;
     Image imagen1 = null;
     int contador = 0;
+    
+    //variables para conectar BBDD
+    Statement estado;
+    ResultSet resultadoConsulta;
+    Connection conexion;
     
 
     @Override
@@ -40,9 +50,20 @@ public class VentanaPokedex extends javax.swing.JFrame {
         }
         buffer1 = (BufferedImage) imagenPokemon.createImage(imagenPokemon.getWidth(), imagenPokemon.getHeight());
         Graphics2D g2 = buffer1.createGraphics();
-        dibujaElPokemonQueEstaEnLaPosicion(150);
-    }
+        dibujaElPokemonQueEstaEnLaPosicion(1);
+   
+try{
+    Class.forName("com.mysql.jdbc.Driver");
+    conexion
+            = DriverManager.getConnection("jdbc:mysql://192.168.145.131/pokedex", "root","");
+    estado= conexion.createStatement();
+   
+}catch(Exception e){
+    System.out.println(e.getMessage());
+    System.out.println("NO SE OYE!!! NO SE OYE!!");
+}
 
+    }
     private void dibujaElPokemonQueEstaEnLaPosicion(int posicion) {
         int fila =posicion /31;
         int columna = posicion %31;
