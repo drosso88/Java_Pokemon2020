@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import jdk.nashorn.internal.ir.CatchNode;
 
@@ -22,19 +25,17 @@ public class VentanaPokedex extends javax.swing.JFrame {
     BufferedImage buffer1 = null;
     Image imagen1 = null;
     int contador = 0;
-    
+
     //variables para conectar BBDD
     Statement estado;
     ResultSet resultadoConsulta;
     Connection conexion;
-    
 
     @Override
     public void paint(Graphics g) {
         super.paintComponents(g);
-        Graphics2D g2 =  (Graphics2D) imagenPokemon.getGraphics();
-        g2.drawImage(buffer1, 0, 0, imagenPokemon.getWidth(), imagenPokemon.getHeight(),null);
-        
+        Graphics2D g2 = (Graphics2D) imagenPokemon.getGraphics();
+        g2.drawImage(buffer1, 0, 0, imagenPokemon.getWidth(), imagenPokemon.getHeight(), null);
 
     }
 
@@ -50,23 +51,24 @@ public class VentanaPokedex extends javax.swing.JFrame {
         }
         buffer1 = (BufferedImage) imagenPokemon.createImage(imagenPokemon.getWidth(), imagenPokemon.getHeight());
         Graphics2D g2 = buffer1.createGraphics();
-        dibujaElPokemonQueEstaEnLaPosicion(1);
-   
-try{
-    Class.forName("com.mysql.jdbc.Driver");
-    conexion
-            = DriverManager.getConnection("jdbc:mysql://192.168.145.131/pokedex", "root","");
-    estado= conexion.createStatement();
-   
-}catch(Exception e){
-    System.out.println(e.getMessage());
-    System.out.println("NO SE OYE!!! NO SE OYE!!");
-}
+        dibujaElPokemonQueEstaEnLaPosicion(30);
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conexion
+                    = DriverManager.getConnection("jdbc:mysql://192.168.126.128/pokedex", "root", "");
+            estado = conexion.createStatement();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("NO SE OYE!!! NO SE OYE!!");
+        }
 
     }
+
     private void dibujaElPokemonQueEstaEnLaPosicion(int posicion) {
-        int fila =posicion /31;
-        int columna = posicion %31;
+        int fila = posicion / 31;
+        int columna = posicion % 31;
         Graphics2D g2 = (Graphics2D) buffer1.getGraphics();
         g2.setColor(Color.black);
         g2.fillRect(0, 0, imagenPokemon.getWidth(), imagenPokemon.getHeight());
@@ -75,10 +77,10 @@ try{
                 0,//posicion Y dentro del jPanell
                 imagenPokemon.getWidth(),//ancho JPanel
                 imagenPokemon.getHeight(),//alto JPanel
-                columna*96,//posicion inicial X dentro de la imagen
-                fila*96,//posicion inicial X dentro de la imagen
-                columna*96+96,//posicion final X
-                fila*96+96,//posicion final Y
+                columna * 96,//posicion inicial X dentro de la imagen
+                fila * 96,//posicion inicial X dentro de la imagen
+                columna * 96 + 96,//posicion final X
+                fila * 96 + 96,//posicion final Y
                 null);//si no lo pones no va
         repaint();
     }
@@ -158,19 +160,42 @@ try{
     }// </editor-fold>//GEN-END:initComponents
 
     private void izqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izqActionPerformed
-       contador--;
-       if(contador <=0){
-       contador =1;
-       }
-        dibujaElPokemonQueEstaEnLaPosicion(contador);
+       dibujaElPokemonQueEstaEnLaPosicion(contador);
+       
+        try {
+            resultadoConsulta = estado.executeQuery("SELECT * FROM `pokemon` WHERE `id` =" + (contador+1));
+            if (resultadoConsulta.next()){
+            nombrePokemon.setText(resultadoConsulta.getString(2));
+            
+            }else{
+            nombrePokemon.setText("Pokemon extinto");
+            }
+        } catch (SQLException ex) {
+            
+        }contador--;
+       
+         if (contador <= 0) {
+            contador = 1;
+        }
     }//GEN-LAST:event_izqActionPerformed
 
     private void derActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_derActionPerformed
-         contador++;
-       if(contador >=649){
-       contador =649;
-       }
+       
         dibujaElPokemonQueEstaEnLaPosicion(contador);
+        try {
+            resultadoConsulta = estado.executeQuery("SELECT * FROM `pokemon` WHERE `id` =" + (contador+1));
+            if (resultadoConsulta.next()){
+            nombrePokemon.setText(resultadoConsulta.getString(2));
+            
+            }else{
+            nombrePokemon.setText("Pokemon extinto");
+            }
+        } catch (SQLException ex) {
+            
+        }contador++;
+        if (contador >= 649) {
+            contador = 649;
+        }
     }//GEN-LAST:event_derActionPerformed
 
     /**
