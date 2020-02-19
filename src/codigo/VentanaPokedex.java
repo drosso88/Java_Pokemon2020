@@ -56,7 +56,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         }
         buffer1 = (BufferedImage) imagenPokemon.createImage(imagenPokemon.getWidth(), imagenPokemon.getHeight());
         Graphics2D g2 = buffer1.createGraphics();
-        dibujaElPokemonQueEstaEnLaPosicion(30);
+        dibujaElPokemonQueEstaEnLaPosicion(0);
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -198,6 +198,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         descripcion.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         descripcion.setForeground(new java.awt.Color(255, 255, 0));
         descripcion.setRows(5);
+        descripcion.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane2.setViewportView(descripcion);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 290, 180));
