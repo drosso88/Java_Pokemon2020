@@ -11,10 +11,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import jdk.nashorn.internal.ir.CatchNode;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
@@ -30,6 +31,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
     Image imagen1 = null;
     int contador = 0;
     Image fondo;
+    Clip musica;
+    
     //variables para conectar BBDD
     Statement estado;
     ResultSet resultadoConsulta;
@@ -226,6 +229,17 @@ public class VentanaPokedex extends javax.swing.JFrame {
     private void derActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_derActionPerformed
 
         dibujaElPokemonQueEstaEnLaPosicion(contador);
+            try {
+            musica = AudioSystem.getClip();
+            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/12_3.wav")));
+            musica.start();
+        } catch (LineUnavailableException ex) {
+            
+        } catch (UnsupportedAudioFileException ex) {
+               
+        } catch (IOException ex) {
+         
+        }
         try {
             resultadoConsulta = estado.executeQuery("SELECT * FROM `pokemon` WHERE `id` =" + (contador + 1));
             if (resultadoConsulta.next()) {
@@ -263,7 +277,17 @@ public class VentanaPokedex extends javax.swing.JFrame {
 
     private void izqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izqActionPerformed
         dibujaElPokemonQueEstaEnLaPosicion(contador);
-
+    try {
+            musica = AudioSystem.getClip();
+            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/12_3.wav")));
+            musica.start();
+        } catch (LineUnavailableException ex) {
+            
+        } catch (UnsupportedAudioFileException ex) {
+               
+        } catch (IOException ex) {
+         
+        }
         try {
             resultadoConsulta = estado.executeQuery("SELECT * FROM `pokemon` WHERE `id` =" + (contador + 1));
             if (resultadoConsulta.next()) {
