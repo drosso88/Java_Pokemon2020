@@ -69,7 +69,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conexion
-                    = DriverManager.getConnection("jdbc:mysql://192.168.126.130/pokedex", "root", "");
+                    = DriverManager.getConnection("jdbc:mysql://192.168.126.129/pokedex", "root", "");
             estado = conexion.createStatement();
             
             
@@ -267,13 +267,16 @@ public class VentanaPokedex extends javax.swing.JFrame {
 
         getContentPane().add(descripcion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 300, 180));
 
-        jButton1.setText("jButton1");
+        jButton1.setAutoscrolls(true);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 420, 70, 60));
 
         pokedexInterfaz.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         pokedexInterfaz.setForeground(new java.awt.Color(255, 255, 51));
@@ -304,7 +307,18 @@ public class VentanaPokedex extends javax.swing.JFrame {
            mov3.setText(p.movimiento3);
           
            
-          
+                 try {
+            musica = AudioSystem.getClip();
+            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/12_3.wav")));
+            musica.start();
+        } catch (LineUnavailableException ex) {
+            
+        } catch (UnsupportedAudioFileException ex) {
+               
+        } catch (IOException ex) {
+         
+        }
+  
            
             
         } else {
@@ -315,6 +329,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         if (contador >= 649) {
             contador = 649;
         }
+        
 
 
     }//GEN-LAST:event_derActionPerformed
@@ -341,7 +356,18 @@ public class VentanaPokedex extends javax.swing.JFrame {
             nombrePokemon.setText("FALLO!!!!");
             tipo2.setText("no tiene mas!");
         }
-
+       try {
+            musica = AudioSystem.getClip();
+            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/12_3.wav")));
+            musica.start();
+        } catch (LineUnavailableException ex) {
+            
+        } catch (UnsupportedAudioFileException ex) {
+               
+        } catch (IOException ex) {
+         
+        }
+  
         contador--;
 
         if (contador <= 0) {
@@ -353,7 +379,8 @@ public class VentanaPokedex extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
            try {
             musica = AudioSystem.getClip();
-            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/musica.wav")));
+            musica.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/bueno.wav")));
+            musica.start();
         } catch (LineUnavailableException ex) {
             
         } catch (UnsupportedAudioFileException ex) {
@@ -361,7 +388,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         } catch (IOException ex) {
          
         }
-  
+  musica.start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
