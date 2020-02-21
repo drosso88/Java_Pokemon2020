@@ -64,7 +64,7 @@ public class VentanaPokedex extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conexion
-                    = DriverManager.getConnection("jdbc:mysql://192.168.126.130/pokedex", "root", "");
+                    = DriverManager.getConnection("jdbc:mysql://192.168.126.129/pokedex", "root", "");
             estado = conexion.createStatement();
 
         } catch (Exception e) {
